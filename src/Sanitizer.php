@@ -225,8 +225,11 @@ class Sanitizer
      */
     protected function setUpBefore()
     {
-        // Turn off the entity loader
-        $this->xmlLoaderValue = libxml_disable_entity_loader(true);
+        // Not needed for PHP 8.0, is done by default
+        if ( \PHP_VERSION_ID < 80000 ) {
+            // Turn off the entity loader
+            $this->xmlLoaderValue = libxml_disable_entity_loader(true);
+        }
 
         // Suppress the errors because we don't really have to worry about formation before cleansing
         libxml_use_internal_errors(true);
@@ -240,8 +243,11 @@ class Sanitizer
      */
     protected function resetAfter()
     {
-        // Reset the entity loader
-        libxml_disable_entity_loader($this->xmlLoaderValue);
+        // Not needed for PHP 8.0
+        if ( \PHP_VERSION_ID < 80000 ) {
+            // Reset the entity loader
+            libxml_disable_entity_loader($this->xmlLoaderValue);
+        }
     }
 
     /**
